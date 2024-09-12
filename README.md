@@ -1,3 +1,3 @@
 # Template-Repo
 
-Template ropo for TOP projects.
+https://www.theodinproject.com/lessons/javascript-binary-search-trees
