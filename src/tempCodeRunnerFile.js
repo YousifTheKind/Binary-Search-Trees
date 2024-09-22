@@ -1,1 +1,1 @@
-prettyPrint(buildTree(arr));
+levelOrderIteration(test, tree.root);

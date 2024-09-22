@@ -11,6 +11,18 @@ class Tree {
     constructor(arr) {
         this.root = buildTree(arr);
     }
+    find(value) {
+        let curr = this.root;
+        while (curr !== null && curr.data !== value) {
+            if (value > curr.data) curr = curr.right;
+            else if (value < curr.data) curr = curr.left;
+        }
+        if (curr == null) {
+            return false;
+        } else {
+            return curr;
+        }
+    }
 }
 
 function buildTree(array) {
@@ -103,11 +115,63 @@ function deleteItem(root, value) {
     }
     return root;
 }
+
+function levelOrderIteration(callback, root) {
+    if (typeof callback !== "function") {
+        throw new Error("Callback function is not provided");
+    }
+    const Q = [];
+    Q.push(root);
+    while (Q.length !== 0) {
+        const currentNode = Q[0];
+        callback(currentNode);
+        if (currentNode.right !== null) {
+            Q.push(currentNode.right);
+        }
+        if (currentNode.left !== null) {
+            Q.push(currentNode.left);
+        }
+        Q.shift();
+    }
+}
+
+function levelOrderRecursion(callback, root) {
+    if (typeof callback !== "function") {
+        throw new Error("Callback function is not provided");
+    }
+    const Q = [];
+    Q.push(root);
+    function recursive(node) {
+        if (Q.length == 0) {
+            return;
+        }
+        callback(Q[0]);
+        if (node.right !== null) {
+            Q.push(node.right);
+        }
+        if (node.left !== null) {
+            Q.push(node.left);
+        }
+        Q.shift();
+        recursive(Q[0]);
+    }
+    recursive(root);
+}
+
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
 const tree = new Tree(arr);
 insert(tree.root, 40);
 prettyPrint(tree.root);
 
-deleteItem(tree.root, 4);
+deleteItem(tree.root, 40);
 prettyPrint(tree.root);
+
+console.log(tree.find(66));
+function test(node) {
+    console.log(node.data);
+}
+levelOrderIteration(test, tree.root);
+console.log("-------------------------------------------");
+
+levelOrderRecursion(test, tree.root);
