@@ -200,23 +200,128 @@ function postOrder(callback, root) {
     }
     recursive(root);
 }
-const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-
-const tree = new Tree(arr);
-insert(tree.root, 40);
-prettyPrint(tree.root);
-
-deleteItem(tree.root, 40);
-prettyPrint(tree.root);
-
-console.log(tree.find(66));
-function test(node) {
-    console.log(node.data);
+function height(node) {
+    if (node === null) {
+        return -1;
+    }
+    const leftHeight = height(node.left);
+    const rightHeight = height(node.right);
+    return Math.max(leftHeight, rightHeight) + 1;
 }
-// levelOrderIteration(test, tree.root);
-console.log("-------------------------------------------");
 
-// levelOrderRecursion(test, tree.root);
-// inOrder(test, tree.root);
-// preOrder(test, tree.root);
-postOrder(test, tree.root);
+function depth(node, root) {
+    let curr = root;
+    const value = node.data;
+    let counter = 0;
+    while (curr !== null && curr.data !== value) {
+        counter++;
+        if (value > curr.data) curr = curr.right;
+        else if (value < curr.data) curr = curr.left;
+    }
+    return counter;
+}
+
+function isBalanced(root) {
+    const Q = [];
+    Q.push(root);
+    while (Q.length !== 0) {
+        const currentNode = Q[0];
+        const heightLeft = height(currentNode.left);
+        const heightRight = height(currentNode.right);
+        const difference = Math.abs(heightLeft - heightRight);
+        // console.log("diff: " + difference);
+        // console.log(currentNode.data);
+        if (difference > 1) return false;
+        else {
+            if (currentNode.right !== null) {
+                Q.push(currentNode.right);
+            }
+            if (currentNode.left !== null) {
+                Q.push(currentNode.left);
+            }
+            Q.shift();
+        }
+    }
+    return true;
+}
+function rebalance(tree) {
+    const root = tree.root;
+    const newArr = [];
+    inOrder((node) => {
+        newArr.push(node.data);
+    }, root);
+    const newRoot = buildTree(newArr);
+    tree.root = newRoot;
+    return tree;
+}
+function randomArr() {
+    return Array.from(Array(100), () => Math.floor(Math.random() * 100 + 1));
+}
+const arr = randomArr();
+const tree = new Tree(arr);
+const test = (x) => {
+    console.log(x.data);
+};
+// TESTING
+// console.log(isBalanced(tree.root));
+// prettyPrint(tree.root);
+// console.log("LEVEL ORDER IT");
+// console.log(levelOrderIteration(test, tree.root));
+// console.log(
+//     "-----------------------------------------------------------------------------"
+// );
+// console.log("LEVEL ORDER REC");
+// console.log(levelOrderRecursion(test, tree.root));
+// console.log(
+//     "-----------------------------------------------------------------------------"
+// );
+// console.log("PRE-ORDER");
+// console.log(preOrder(test, tree.root));
+// console.log(
+//     "-----------------------------------------------------------------------------"
+// );
+// console.log("IN-ORDER");
+// console.log(inOrder(test, tree.root));
+// console.log(
+//     "-----------------------------------------------------------------------------"
+// );
+// console.log("POST-ORDER");
+// console.log(postOrder(test, tree.root));
+// console.log(
+//     "-----------------------------------------------------------------------------"
+// );
+// insert(tree.root, 101);
+// insert(tree.root, 102);
+// insert(tree.root, 103);
+// insert(tree.root, 104);
+// insert(tree.root, 105);
+// console.log(isBalanced(tree.root));
+// prettyPrint(tree.root);
+// rebalance(tree);
+// console.log(isBalanced(tree.root));
+// prettyPrint(tree.root);
+// console.log("LEVEL ORDER IT");
+// console.log(levelOrderIteration(test, tree.root));
+// console.log(
+//     "-----------------------------------------------------------------------------"
+// );
+// console.log("LEVEL ORDER REC");
+// console.log(levelOrderRecursion(test, tree.root));
+// console.log(
+//     "-----------------------------------------------------------------------------"
+// );
+// console.log("PRE-ORDER");
+// console.log(preOrder(test, tree.root));
+// console.log(
+//     "-----------------------------------------------------------------------------"
+// );
+// console.log("IN-ORDER");
+// console.log(inOrder(test, tree.root));
+// console.log(
+//     "-----------------------------------------------------------------------------"
+// );
+// console.log("POST-ORDER");
+// console.log(postOrder(test, tree.root));
+// console.log(
+//     "-----------------------------------------------------------------------------"
+// );
