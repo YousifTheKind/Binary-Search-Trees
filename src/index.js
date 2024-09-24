@@ -222,27 +222,13 @@ function depth(node, root) {
 }
 
 function isBalanced(root) {
-    const Q = [];
-    Q.push(root);
-    while (Q.length !== 0) {
-        const currentNode = Q[0];
-        const heightLeft = height(currentNode.left);
-        const heightRight = height(currentNode.right);
-        const difference = Math.abs(heightLeft - heightRight);
-        // console.log("diff: " + difference);
-        // console.log(currentNode.data);
-        if (difference > 1) return false;
-        else {
-            if (currentNode.right !== null) {
-                Q.push(currentNode.right);
-            }
-            if (currentNode.left !== null) {
-                Q.push(currentNode.left);
-            }
-            Q.shift();
-        }
-    }
-    return true;
+    if (root == null) return true;
+    const heightLeft = height(root.left);
+    const heightRight = height(root.right);
+    const difference = Math.abs(heightLeft - heightRight);
+    if (difference <= 1 && isBalanced(root.left) && isBalanced(root.right))
+        return true;
+    else return false;
 }
 function rebalance(tree) {
     const root = tree.root;
