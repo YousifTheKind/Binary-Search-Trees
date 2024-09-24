@@ -1,1 +1,1 @@
-levelOrderIteration(test, tree.root);
+inOrder(test, tree.root);

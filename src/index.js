@@ -157,7 +157,49 @@ function levelOrderRecursion(callback, root) {
     }
     recursive(root);
 }
+function inOrder(callback, root) {
+    if (typeof callback !== "function") {
+        throw new Error("Callback function is not provided");
+    }
+    function recursive(node) {
+        if (node === null) {
+            return;
+        }
+        recursive(node.left);
+        callback(node);
+        recursive(node.right);
+    }
+    recursive(root);
+}
+function preOrder(callback, root) {
+    if (typeof callback !== "function") {
+        throw new Error("Callback function is not provided");
+    }
+    function recursive(node) {
+        if (node === null) {
+            return;
+        }
+        callback(node);
+        recursive(node.left);
+        recursive(node.right);
+    }
+    recursive(root);
+}
+function postOrder(callback, root) {
+    if (typeof callback !== "function") {
+        throw new Error("Callback function is not provided");
+    }
+    function recursive(node) {
+        if (node === null) {
+            return;
+        }
+        recursive(node.left);
+        recursive(node.right);
 
+        callback(node);
+    }
+    recursive(root);
+}
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
 const tree = new Tree(arr);
@@ -171,7 +213,10 @@ console.log(tree.find(66));
 function test(node) {
     console.log(node.data);
 }
-levelOrderIteration(test, tree.root);
+// levelOrderIteration(test, tree.root);
 console.log("-------------------------------------------");
 
-levelOrderRecursion(test, tree.root);
+// levelOrderRecursion(test, tree.root);
+// inOrder(test, tree.root);
+// preOrder(test, tree.root);
+postOrder(test, tree.root);
